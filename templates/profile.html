@@ -3,47 +3,52 @@
 {% block content %}
 
 {% if profile %}
-
     <div class="container text-center">
         <div class="row">
             <div class="col-8">
-
-                <h1>{{ profile.user.username }}'s Profile </h1>
+                <h1>{{ profile.user.username }}'s Profile</h1>
             </div>
             <div class="col-4">
-
                 <div class="card">
                     <h5 class="card-header">Follows</h5>
                     <div class="card-body">
-                      
-                      <p class="card-text">
-                        
-                      </p>
-                      <strong>Follows</strong><br>
+                        <strong>Follows</strong><br>
                         {% for following in profile.follows.all %}
-                            <a href="{% url 'profile' following.user.id %}">@{{ following.user.username }}</a>
-                            <br>
+                            <a href="{% url 'profile' following.user.id %}">@{{ following.user.username }}</a><br>
                         {% endfor %}
                     </div>
-                  </div>
-                  <br>
-                
-                    <br>
-
-                    <div class="card">
-                        <h5 class="card-header">Followed By</h5>
-                        <div class="card-body">
-                          <p class="card-text">
-                            <strong>Followed By</strong><br>
-                            {% for follower in profile.followed_by.all %}
-                                <a href="{% url 'profile' follower.user.id %}">@{{ follower.user.username }}</a><br>
-                            {% endfor %}
-                          </p> 
+                </div>
+                <br>
+                <div class="card">
+                    <h5 class="card-header">Followed By</h5>
+                    <div class="card-body">
+                        <strong>Followed By</strong><br>
+                        {% for follower in profile.followed_by.all %}
+                            <a href="{% url 'profile' follower.user.id %}">@{{ follower.user.username }}</a><br>
+                        {% endfor %}
                     </div>
                 </div>
+                <br>
+                <form method="POST" action="{% url 'follow_unfollow' profile.user.id %}">
+                    {% csrf_token %}
+                    {% if request.user.profile != profile %}
+                        {% if profile in request.user.profile.follows.all %}
+                            <!-- If the logged-in user is following the profile, show the Unfollow button -->
+                            <button class="btn btn-outline-danger" name="follow" value="unfollow" type="submit">
+                                Unfollow @{{ profile.user.username|lower }}
+                            </button>
+                        {% else %}
+                            <!-- If the logged-in user is not following the profile, show the Follow button -->
+                            <button class="btn btn-outline-success" name="follow" value="follow" type="submit">
+                                Follow @{{ profile.user.username|lower }}
+                            </button>
+                        {% endif %}
+                    {% endif %}
+                </form>
+                <br>
             </div>
         </div>
     </div>
 {% endif %}
 
-{% endblock %} 
+{% endblock %}

@@ -4,6 +4,16 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 # Create your models here.
+class mainPosts(models.Model):
+    user = models.ForeignKey(User, related_name="main_posts", on_delete=models.DO_NOTHING)
+
+    body = models.CharField(max_length=200)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user} ({self.created_at:%Y-%m-%d %H:%M}): {self.body}..."
+
+
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     follows = models.ManyToManyField("self", related_name="followed_by", symmetrical=False, blank=True)
