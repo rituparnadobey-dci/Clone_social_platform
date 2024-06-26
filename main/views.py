@@ -1,10 +1,25 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .models import Profile
+from .models import Profile, MainPost
+from .forms import MainPostForm
 
 def home(request):
-    return render(request, 'home.html', {})
+    if request.user.is_authenticated:
+        form = MainPostForm(request.POST or None)
+        if request.method == "POST":
+            if form.is_valid():
+                post = form.save(commit=False)
+                post.user = request.user
+                post.save()
+                messages.success (request, ("Your Post is public now."))
+                return redirect('home')
+
+        post = MainPost.objects.all().order_by("-created_at")
+        return render(request, 'home.html', {"posts":post, "form":form})
+    else:
+        post = MainPost.objects.all().order_by("-created_at")
+        return render(request, 'home.html', {"posts":post})
 
 @login_required
 def profile_list(request):
@@ -14,7 +29,8 @@ def profile_list(request):
 @login_required
 def profile(request, pk):
     profile = get_object_or_404(Profile, user_id=pk)
-    return render(request, 'profile.html', {'profile': profile})
+    posts = MainPost.objects.filter(user_id=pk)
+    return render(request, 'profile.html', {'profile': profile, "posts":posts })
 
 @login_required
 def follow_unfollow(request, pk):
