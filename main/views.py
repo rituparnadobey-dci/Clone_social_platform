@@ -1,8 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login, logout
 from .models import Profile, MainPost
-from .forms import MainPostForm
+from .forms import MainPostForm, SignUpForm
+from django.contrib.auth.forms import UserCreationForm
+from django import forms
 
 def home(request):
     if request.user.is_authenticated:
@@ -44,3 +47,42 @@ def follow_unfollow(request, pk):
                 request.user.profile.follows.remove(profile)
                 messages.success(request, f"You have unfollowed {profile.user.username}.")
         return redirect('profile', pk=pk)
+    
+def login_user(request):
+    if request.method == "POST":
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            messages.success(request, f"You Have Been Logged In! ")
+            return redirect('home')
+        else:
+            messages.success(request, f"There Was An Error While Loging In! PLease Try Again...")
+            return redirect('login')
+
+    else:
+        return render(request, 'login.html', {})
+
+def logout_user(request):
+    logout(request)
+    messages.success(request, f"You Have Been Logged Out...")
+    return redirect('home')
+
+def register_user(request):
+    form = SignUpForm()
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password1']
+            """first_name  = form.cleaned_data['first_name']
+            second_name  = form.cleaned_data['second_name']
+            email  = form.cleaned_data['email']"""
+            user = authenticate(username=username, password=password)
+            login(request, user)
+            messages.success(request, f"You Have Been Logged I  n...")
+            return redirect('home')
+    return render(request, 'register.html', {'form':form})
+ 
