@@ -3,10 +3,16 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from .models import Profile, MainPost
+<<<<<<< HEAD
 from .forms import MainPostForm, SignUpForm, UserUpdateForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
 
+=======
+from .forms import MainPostForm, SignUpForm
+from django.contrib.auth.forms import UserCreationForm
+from django import forms
+>>>>>>> fd877cdb32189e5b3d46a56dddb8269e45b7384e
 
 def home(request):
     if request.user.is_authenticated:
@@ -16,6 +22,7 @@ def home(request):
                 post = form.save(commit=False)
                 post.user = request.user
                 post.save()
+<<<<<<< HEAD
                 messages.success(request, "Your post is now public.")
                 return redirect('home')
         posts = MainPost.objects.all().order_by("-created_at")
@@ -26,22 +33,39 @@ def home(request):
 
 
 
+=======
+                messages.success (request, ("Your Post is public now."))
+                return redirect('home')
+
+        post = MainPost.objects.all().order_by("-created_at")
+        return render(request, 'home.html', {"posts":post, "form":form})
+    else:
+        post = MainPost.objects.all().order_by("-created_at")
+        return render(request, 'home.html', {"posts":post})
+>>>>>>> fd877cdb32189e5b3d46a56dddb8269e45b7384e
 
 @login_required
 def profile_list(request):
     profiles = Profile.objects.exclude(user=request.user)
     return render(request, 'profile_list.html', {"profiles": profiles})
 
+<<<<<<< HEAD
 
 
 
+=======
+>>>>>>> fd877cdb32189e5b3d46a56dddb8269e45b7384e
 @login_required
 def profile(request, pk):
     profile = get_object_or_404(Profile, user_id=pk)
     posts = MainPost.objects.filter(user_id=pk)
+<<<<<<< HEAD
     return render(request, 'profile.html', {'profile': profile, "posts": posts})
 
 
+=======
+    return render(request, 'profile.html', {'profile': profile, "posts":posts })
+>>>>>>> fd877cdb32189e5b3d46a56dddb8269e45b7384e
 
 @login_required
 def follow_unfollow(request, pk):
@@ -55,6 +79,7 @@ def follow_unfollow(request, pk):
                 request.user.profile.follows.remove(profile)
                 messages.success(request, f"You have unfollowed {profile.user.username}.")
         return redirect('profile', pk=pk)
+<<<<<<< HEAD
 
 
 
@@ -130,3 +155,44 @@ def update_user(request):
         form = UserUpdateForm(instance=request.user)
     
     return render(request, 'update_user.html', {'form': form})
+=======
+    
+def login_user(request):
+    if request.method == "POST":
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            messages.success(request, f"You Have Been Logged In! ")
+            return redirect('home')
+        else:
+            messages.success(request, f"There Was An Error While Loging In! PLease Try Again...")
+            return redirect('login')
+
+    else:
+        return render(request, 'login.html', {})
+
+def logout_user(request):
+    logout(request)
+    messages.success(request, f"You Have Been Logged Out...")
+    return redirect('home')
+
+def register_user(request):
+    form = SignUpForm()
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password1']
+            """first_name  = form.cleaned_data['first_name']
+            second_name  = form.cleaned_data['second_name']
+            email  = form.cleaned_data['email']"""
+            user = authenticate(username=username, password=password)
+            login(request, user)
+            messages.success(request, f"You Have Been Logged I  n...")
+            return redirect('home')
+    return render(request, 'register.html', {'form':form})
+ 
+>>>>>>> fd877cdb32189e5b3d46a56dddb8269e45b7384e

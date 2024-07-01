@@ -1,9 +1,17 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> fd877cdb32189e5b3d46a56dddb8269e45b7384e
 import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> fd877cdb32189e5b3d46a56dddb8269e45b7384e
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
@@ -17,7 +25,13 @@ ALLOWED_HOSTS = []
 
 APPEND_SLASH = True
 
+<<<<<<< HEAD
 # Application definition
+=======
+
+# Application definition
+
+>>>>>>> fd877cdb32189e5b3d46a56dddb8269e45b7384e
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -25,7 +39,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+<<<<<<< HEAD
     'main',  # Your main application
+=======
+    'main',
+>>>>>>> fd877cdb32189e5b3d46a56dddb8269e45b7384e
 ]
 
 MIDDLEWARE = [
@@ -40,11 +58,14 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'social_platform.urls'
 
+<<<<<<< HEAD
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
 ]
 
 
+=======
+>>>>>>> fd877cdb32189e5b3d46a56dddb8269e45b7384e
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -63,8 +84,15 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'social_platform.wsgi.application'
 
+<<<<<<< HEAD
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
+=======
+
+# Database
+# https://docs.djangoproject.com/en/5.0/ref/settings/#databases
+
+>>>>>>> fd877cdb32189e5b3d46a56dddb8269e45b7384e
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -72,8 +100,15 @@ DATABASES = {
     }
 }
 
+<<<<<<< HEAD
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
+=======
+
+# Password validation
+# https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
+
+>>>>>>> fd877cdb32189e5b3d46a56dddb8269e45b7384e
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -89,8 +124,15 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+<<<<<<< HEAD
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
+=======
+
+# Internationalization
+# https://docs.djangoproject.com/en/5.0/topics/i18n/
+
+>>>>>>> fd877cdb32189e5b3d46a56dddb8269e45b7384e
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
@@ -99,6 +141,7 @@ USE_I18N = True
 
 USE_TZ = True
 
+<<<<<<< HEAD
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 STATIC_URL = '/static/'
@@ -111,3 +154,21 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+=======
+
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/5.0/howto/static-files/
+
+STATIC_URL = 'static/'
+
+# Default primary key field type
+# https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# Ensure you have static files configuration
+STATIC_URL = '/static/'
+>>>>>>> fd877cdb32189e5b3d46a56dddb8269e45b7384e

@@ -9,5 +9,8 @@ urlpatterns = [
     path('login/', views.login_user, name='login'),
     path('logout/', views.logout_user, name='logout'),
     path('register/', views.register_user, name='register'),
+<<<<<<< HEAD
     path('update_user/', views.update_user, name='update_user'),
+=======
+>>>>>>> fd877cdb32189e5b3d46a56dddb8269e45b7384e
 ]
